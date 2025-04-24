@@ -109,5 +109,4 @@ func (p *Parser) parsePrimary() Expr {
 		fmt.Printf("Unexpected token: %s\n", p.curToken.Type)
 		return nil
 	}
-
 }

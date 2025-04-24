@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"go-pascal/interpreter"
 	"go-pascal/lexer"
 	"go-pascal/parser"
 )
@@ -11,5 +13,7 @@ func main() {
 	l := lexer.New(input)
 	p := parser.New(l)
 	expr := p.ParseExpression()
-	parser.PrintExpr(expr, "")
+	result := interpreter.Eval(expr)
+
+	fmt.Printf("Result: %d\n", result)
 }

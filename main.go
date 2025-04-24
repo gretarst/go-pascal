@@ -1,26 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"go-pascal/lexer"
-	"go-pascal/token"
+	"go-pascal/parser"
 )
 
 func main() {
-	input := `
-program Demo;
-var x: integer;
-var counter1: integer;
-BeGiN
-  counter1 := 99;
-  x := 42 + 3;
-  writeln(x);
-end.
-`
+	input := "2 + 3 * 4"
 
 	l := lexer.New(input)
-
-	for tok := l.NextToken(); tok.Type != token.EOF; tok = l.NextToken() {
-		fmt.Printf("%+v\n", tok)
-	}
+	p := parser.New(l)
+	expr := p.ParseExpression()
+	parser.PrintExpr(expr, "")
 }

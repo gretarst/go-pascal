@@ -1,6 +1,9 @@
 package lexer
 
-import "go-pascal/token"
+import (
+	"go-pascal/token"
+	"strings"
+)
 
 type Lexer struct {
 	input        string
@@ -56,7 +59,7 @@ func (l *Lexer) readIdentifier() string {
 	for isLetter(l.ch) || isDigit(l.ch) {
 		l.readChar()
 	}
-	return l.input[start:l.position]
+	return strings.ToLower(l.input[start:l.position])
 }
 
 func isDigit(ch byte) bool {
@@ -72,10 +75,20 @@ func (l *Lexer) readNumber() string {
 }
 
 func (l *Lexer) NextToken() token.Token {
-	var tok token.Token
-
 	l.skipWhitespace()
+	// FIRST: letters (identifiers and keywords)
+	if isLetter(l.ch) {
+		literal := l.readIdentifier()
+		tokType := token.LookupIdent(literal)
+		return token.Token{Type: tokType, Literal: literal}
+	}
 
+	// SECOND: numbers
+	if isDigit(l.ch) {
+		return token.Token{Type: token.INT, Literal: l.readNumber()}
+	}
+
+	var tok token.Token
 	switch l.ch {
 	case ':':
 		if l.peekChar() == '=' {
@@ -106,18 +119,7 @@ func (l *Lexer) NextToken() token.Token {
 		tok.Literal = ""
 		tok.Type = token.EOF
 	default:
-		if isLetter(l.ch) {
-			literal := l.readIdentifier()
-			tokType := token.LookupIdent(literal)
-			tok = token.Token{Type: tokType, Literal: literal}
-			return tok
-		} else if isDigit(l.ch) {
-			literal := l.readNumber()
-			tok = token.Token{Type: token.INT, Literal: literal}
-			return tok
-		} else {
-			tok = newToken(token.ILLEGAL, l.ch)
-		}
+		tok = newToken(token.ILLEGAL, l.ch)
 	}
 	l.readChar()
 	return tok

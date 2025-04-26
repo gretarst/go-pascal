@@ -2,8 +2,8 @@ package parser
 
 import (
 	"fmt"
-	"go-pascal/lexer"
-	"go-pascal/token"
+	"pastel/lexer"
+	"pastel/token"
 	"strconv"
 )
 

@@ -1,7 +1,7 @@
 package lexer
 
 import (
-	"go-pascal/token"
+	"pastel/token"
 	"strings"
 )
 

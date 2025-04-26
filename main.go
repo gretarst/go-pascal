@@ -2,22 +2,27 @@ package main
 
 import (
 	"fmt"
-	"go-pascal/interpreter"
-	"go-pascal/lexer"
-	"go-pascal/parser"
+	"os"
+	"pastel/interpreter"
+	"pastel/lexer"
+	"pastel/parser"
 )
 
 func main() {
-	input := `
-    program Demo;
+	var input string
 
-    var x: integer;
+	if len(os.Args) > 1 {
+		filename := os.Args[1]
+		data, err := os.ReadFile(filename)
 
-    begin
-    x := 5 * 3;
-    writeln(x);
-    end.
-    `
+		if err != nil {
+			panic("Failed to read source file")
+		}
+
+		input = string(data)
+	} else {
+		panic("Please provide source file")
+	}
 
 	// Step 1: Lexical analysis
 	l := lexer.New(input)

@@ -1,3 +1,3 @@
-module go-pascal
+module pastel
 
 go 1.24.2

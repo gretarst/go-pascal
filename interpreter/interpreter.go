@@ -2,8 +2,8 @@ package interpreter
 
 import (
 	"fmt"
-	"go-pascal/parser"
-	"go-pascal/token"
+	"pastel/parser"
+	"pastel/token"
 )
 
 // EvalProgram evaluates the entire Pascal program.
